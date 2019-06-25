@@ -6,14 +6,14 @@ import { getCategoryById } from '../../../reducers/category';
 import { getCategory } from '../../../actions/category';
 
 class ItemList extends React.Component {
-  componentDidMount() {
+  async componentDidMount() {
     // Fetch category information
     if (!this.props.category) {
       this.props.getCategory();
     }
 
     // Fetch categories
-    this.props.getItems();
+    await this.props.getItems();
   }
   
   render() {
@@ -34,7 +34,7 @@ class ItemList extends React.Component {
             <li className="list-group-item" key={`item-${item.id}`}>
               <div><b>{item.name}</b></div>
               <div>
-                <small class="text-muted">{item.description}</small>
+                <small className="text-muted">{item.description}</small>
               </div>
             </li>
           ))}
