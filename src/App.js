@@ -1,26 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Switch, Route } from 'react-router';
+import { BrowserRouter, Link } from 'react-router-dom';
+import CategoryList from './components/Category/CategoryList';
+import ItemList from './components/Item/ItemList';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+export default class App extends React.Component {
+  render() {
+    return (
+      <BrowserRouter>
+        <nav className="navbar navbar-expand-sm bg-dark navbar-dark" role="navigation">
+          <div className="container-fluid">
+            <div className="navbar-header">
+              <Link className="navbar-brand" to="/">
+                Catalog
+              </Link>
+            </div>
+          </div>
+        </nav>
 
-export default App;
+        <div className="container mt-3">
+          <Switch>
+            <Route exact path="/" component={CategoryList} />
+            <Route exact path="/categories/:categoryId" component={ItemList} />
+          </Switch>
+        </div>
+      </BrowserRouter>
+    );
+  }
+};
