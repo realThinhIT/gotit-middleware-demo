@@ -30,9 +30,12 @@ class ItemList extends React.Component {
         </div>}
 
         <div className="list-group">
-          {this.props.items.map(item => (
+          {!this.props.isLoading && this.props.items.map(item => (
             <li className="list-group-item" key={`item-${item.id}`}>
-              {item.name}
+              <div><b>{item.name}</b></div>
+              <div>
+                <small class="text-muted">{item.description}</small>
+              </div>
             </li>
           ))}
         </div>
@@ -42,7 +45,7 @@ class ItemList extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  isLoading: state.item.isLoading,
+  isLoading: state.item.isLoading || state.category.isLoading,
   error: state.item.error,
   items: getAvailableItems(state.item),
   category: getCategoryById(state.category, ownProps.match.params.categoryId)
