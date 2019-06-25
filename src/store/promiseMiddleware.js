@@ -2,7 +2,7 @@ export default ({ dispatch, getState }) => next => async action => {
     const { type, promise, ...rest } = action;
 
     // If promise isn't defined, pass the middleware.
-    if (!action.promise) {
+    if (!promise) {
       return next(action);
     }
 
@@ -14,11 +14,16 @@ export default ({ dispatch, getState }) => next => async action => {
       // Try to exec the promise, if it is resolved, dispatch success action.
       const result = await promise();
 
-      return next({
+      next({
         type: successAction,
         payload: result,
         ...rest
       });
+
+      return {
+        success: true,
+        res: result
+      }
     } catch (e) {
       // If it is rejected, dispatch failed action.
       next({
@@ -26,5 +31,10 @@ export default ({ dispatch, getState }) => next => async action => {
         payload: e,
         ...rest
       });
+
+      return {
+        success: false,
+        error: e
+      }
     }
 };
